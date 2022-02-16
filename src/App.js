@@ -5,18 +5,26 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-     bin: 0
+      bin: new Date(),
     };
   }
   tickyTocky() {
     this.setState(() => ({
-      bin: this.state.bin + 1
+      bin: new Date(),
     }));
   }
   componentDidMount() {
-    setInterval(() => {this.tickyTocky()}, 1000);
+    setInterval(() => {
+      this.tickyTocky();
+    }, 1000);
   }
   render() {
-    return <center><h1>{this.state.bin}</h1></center>;
+    return (
+      <center>
+        <h1>
+          {this.state.bin.toLocaleString()}
+        </h1>
+      </center>
+    );
   }
 }
