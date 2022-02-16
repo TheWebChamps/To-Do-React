@@ -1,7 +1,7 @@
-import React from "react";
+import { Component } from "react";
 import "./index.css";
 
-export default class App extends React.Component {
+export default class App extends Component {
   constructor() {
     super();
     this.state = {
