@@ -1,19 +1,18 @@
 import { Component } from "react";
 import "./index.css";
-import "./App.css";
 
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
       bin: Date.now(),
-      bin2: new Date()
+      bin2: new Date(),
     };
   }
   tickyTocky() {
     this.setState(() => ({
       bin: Date.now(),
-      bin2: new Date()
+      bin2: new Date(),
     }));
   }
   componentDidMount() {
@@ -26,12 +25,15 @@ export default class App extends Component {
   }
   render() {
     return (
-      <center>
-        <h1>
-          {this.state.bin.toLocaleString()}<br />
-          {this.state.bin2.toLocaleString()}
-        </h1>
-      </center>
+      <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
+        <center>
+          <h1>
+            {this.state.bin.toLocaleString()}
+            <br />
+            {this.state.bin2.toLocaleString()}
+          </h1>
+        </center>
+      </div>
     );
   }
 }
