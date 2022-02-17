@@ -21,6 +21,9 @@ export default class App extends Component {
       this.tickyTocky();
     }, 1000000000000);
   }
+  componentWillUnmount() {
+    clearInterval(this.tickyTocky());
+  }
   render() {
     return (
       <center>
