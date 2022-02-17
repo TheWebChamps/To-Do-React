@@ -24,9 +24,12 @@ export default class App extends Component {
     clearInterval(this.tickyTocky());
   }
   render() {
+    const arr = [1, 2, 3, 4, 5];
+    const map = arr.map((num) => num * 4);
     return (
       <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
         <center>
+          <ol>{map.toString()}</ol>
           <h1>
             {this.state.bin.toLocaleString()}
             <br />
