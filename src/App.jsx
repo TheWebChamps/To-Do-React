@@ -69,7 +69,7 @@ export default class App extends Component {
               }}
               onClick={this.setText}
             >
-              Click to change
+              Click to display message
             </button>
           </form>
         </center>
