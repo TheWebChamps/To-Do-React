@@ -23,7 +23,8 @@ export default class App extends Component {
   componentWillUnmount() {
     clearInterval(this.tickyTocky());
   }
-  setText(text) {
+  setText(e, text) {
+    e.preventDefault();
     text = document.getElementById("textIt").value;
     document.getElementById("print").innerHTML = text;
   }
@@ -48,26 +49,29 @@ export default class App extends Component {
             <br />
             <h2 id="print"> </h2>
           </h1>
-          <input
-            id="textIt"
-            type="text"
-            placeholder="Type something..."
-            style={{ width: "500px", height: "40px" }}
-          />
-          <br />
-          <br />
-          <button
-            style={{
-              backgroundColor: "red",
-              border: "none",
-              height: "40px",
-              width: "200px",
-              textAlign: "center",
-            }}
-            onClick={this.setText}
-          >
-            Click to change
-          </button>
+          <form onSubmit={this.setText}>
+            <input
+              id="textIt"
+              type="text"
+              placeholder="Type something..."
+              style={{ width: "500px", height: "40px" }}
+            />
+            <br />
+            <br />
+            <button
+              type="submit"
+              style={{
+                backgroundColor: "red",
+                border: "none",
+                height: "40px",
+                width: "200px",
+                textAlign: "center",
+              }}
+              onClick={this.setText}
+            >
+              Click to change
+            </button>
+          </form>
         </center>
       </div>
     );
