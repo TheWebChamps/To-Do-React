@@ -5,13 +5,19 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      val: document.getElementById("textIt").value,
+      val: document.getElementById("textIt"),
     };
+  }
+  reRender() {
+    this.setState({ val: document.getElementById("textIt").value });
   }
   componentDidMount() {
     setInterval(() => {
-      this.setState({ val: document.getElementById("textIt").value });
+      this.reRender();
     }, 0);
+  }
+  componentWillUnmount() {
+    clearInterval(this.reRender());
   }
   render() {
     return (
@@ -24,9 +30,7 @@ export default class App extends Component {
         }}
       >
         <center>
-          <h1>
-            <h2 id="print">{this.state.val}</h2>
-          </h1>
+          <h1 id="print">{this.state.val}</h1>
           <input
             id="textIt"
             type="text"
