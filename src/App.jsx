@@ -70,7 +70,9 @@ export default class App extends Component {
   static changeAuthState() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        document.getElementById("banner").innerHTML = `Greetings, ${user.displayName}`;
+        document.getElementById(
+          "banner"
+        ).innerHTML = `Greetings, ${user.displayName}`;
         document.getElementById("google").style.display = "none";
         document.getElementById("signOut").style.display = "block";
         document.getElementById("delete").style.display = "block";
@@ -84,34 +86,44 @@ export default class App extends Component {
   }
   render() {
     return (
-      <div>
-        <h1 id="banner"> </h1>
-        <br />
-        <button
-          id="google"
-          style={{ width: "300px", height: "50px" }}
-          onClick={this.signInWithGoogle}
-        >
-          Sign in with Google
-        </button>
-        <br />
-        <br />
-        <button
-          id="signOut"
-          style={{ width: "300px", height: "50px" }}
-          onClick={this.signUserOut}
-        >
-          Sign out
-        </button>
-        <br />
-        <br />
-        <button
-          id="delete"
-          style={{ width: "300px", height: "50px" }}
-          onClick={this.deleteAccount}
-        >
-          Delete account
-        </button>
+      <div
+        style={{
+          display: "grid",
+          columnGap: "20px",
+          rowGap: "20px",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <center>
+          <h1 id="banner"> </h1>
+          <br />
+          <button
+            id="google"
+            style={{ width: "300px", height: "50px" }}
+            onClick={this.signInWithGoogle}
+          >
+            Sign in with Google
+          </button>
+          <br />
+          <br />
+          <button
+            id="signOut"
+            style={{ width: "300px", height: "50px" }}
+            onClick={this.signUserOut}
+          >
+            Sign out
+          </button>
+          <br />
+          <br />
+          <button
+            id="delete"
+            style={{ width: "300px", height: "50px" }}
+            onClick={this.deleteAccount}
+          >
+            Delete account
+          </button>
+        </center>
       </div>
     );
   }
