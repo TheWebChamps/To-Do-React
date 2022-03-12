@@ -9,10 +9,17 @@ import {
   signInWithPopup,
   signOut,
   GoogleAuthProvider,
-  connectAuthEmulator,
   deleteUser,
   onAuthStateChanged,
 } from "firebase/auth";
+
+import {
+  getFirestore,
+  onSnapshot,
+  query,
+  collection,
+} from "firebase/firestore";
+
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 // Your web app's Firebase configuration
@@ -29,39 +36,46 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL"),
+  provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL")
 });
 
 const auth = getAuth();
+const firestore = getFirestore();
 
 const authProvider = new GoogleAuthProvider();
 
-connectAuthEmulator(auth, "http://localhost:9099");
-
 export default class App extends Component {
-  signInWithGoogle() {
+  signInWithGoogle(e) {
+    e.preventDefault();
     signInWithPopup(auth, authProvider)
       .then(() => {
         console.log("You are now signed in");
+        window.location.replace("https://to-do-46.firebaseapp.com");
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
       });
   }
-  signUserOut() {
-    signOut(auth)
-      .then(() => {
-        console.log("Successfully signed out");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  async signUserOut(e) {
+    e.preventDefault();
+    try {
+      await signOut(auth);
+      console.log("Successfully signed out");
+      window.location.replace("https://to-do-46.firebaseapp.com");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   }
-  deleteAccount() {
+  deleteAccount(e) {
+    e.preventDefault();
     var user = auth.currentUser;
     deleteUser(user)
       .then(() => {
         console.log("Successfully deleted user");
+        window.location.replace("https://to-do-46.firebaseapp.com");
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -84,46 +98,75 @@ export default class App extends Component {
       }
     });
   }
+  constructor() {
+    super();
+    this.state = {
+      data: "",
+    };
+  }
+  componentDidMount() {
+    const q = query(collection(firestore, "col"));
+    onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        this.setState({
+          data: JSON.stringify(doc.data().t),
+        });
+      });
+    });
+  }
   render() {
     return (
-      <div
-        style={{
-          display: "grid",
-          columnGap: "20px",
-          rowGap: "20px",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <center>
+      <div>
+        <div
+          style={{
+            display: "grid",
+            alignItems: "right",
+            justifyContent: "righ t",
+          }}
+        >
           <h1 id="banner"> </h1>
           <br />
-          <button
-            id="google"
-            style={{ width: "300px", height: "50px" }}
-            onClick={this.signInWithGoogle}
-          >
-            Sign in with Google
-          </button>
+          <form onSubmit={this.signInWithGoogle}>
+            <button
+              id="google"
+              style={{ width: "300px", height: "50px" }}
+              type="submit"
+            >
+              Sign in with Google
+            </button>
+          </form>
           <br />
           <br />
-          <button
-            id="signOut"
-            style={{ width: "300px", height: "50px" }}
-            onClick={this.signUserOut}
-          >
-            Sign out
-          </button>
+          <form onSubmit={this.signUserOut}>
+            <button
+              type="submit"
+              id="signOut"
+              style={{ width: "300px", height: "50px" }}
+            >
+              Sign out
+            </button>
+          </form>
           <br />
           <br />
-          <button
-            id="delete"
-            style={{ width: "300px", height: "50px" }}
-            onClick={this.deleteAccount}
-          >
-            Delete account
-          </button>
-        </center>
+          <form onSubmit={this.deleteAccount}>
+            <button
+              id="delete"
+              style={{ width: "300px", height: "50px" }}
+              type="submit"
+            >
+              Delete account
+            </button>
+          </form>
+        </div>
+        <div
+          style={{
+            display: "grid",
+            justifyContent: "left",
+            alignItems: "left",
+            verticalAlign: "top",
+          }}
+        ></div>
+        <h2>{this.state.data}</h2>
       </div>
     );
   }
