@@ -11,6 +11,7 @@ import {
   GoogleAuthProvider,
   deleteUser,
   onAuthStateChanged,
+  connectAuthEmulator,
 } from "firebase/auth";
 
 import {
@@ -18,6 +19,7 @@ import {
   onSnapshot,
   query,
   collection,
+  connectFirestoreEmulator,
 } from "firebase/firestore";
 
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
@@ -36,52 +38,53 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL")
+  provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL"),
 });
 
 const auth = getAuth();
 const firestore = getFirestore();
 
+connectAuthEmulator(auth, "http://localhost:9099/");
+connectFirestoreEmulator(firestore, "localhost", 8080);
+
 const authProvider = new GoogleAuthProvider();
 
 export default class App extends Component {
-  signInWithGoogle(e) {
+  async signInWithGoogle(e) {
     e.preventDefault();
-    signInWithPopup(auth, authProvider)
-      .then(() => {
-        console.log("You are now signed in");
-        window.location.replace("https://to-do-46.firebaseapp.com");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      await signInWithPopup(auth, authProvider);
+      console.log("You are now signed in");
+      window.location.replace("https://localhost:3000/");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   }
   async signUserOut(e) {
     e.preventDefault();
     try {
       await signOut(auth);
       console.log("Successfully signed out");
+      window.location.replace("https://localhost:3000/");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async deleteAccount(e) {
+    e.preventDefault();
+    var user = auth.currentUser;
+    try {
+      await deleteUser(user);
+      console.log("Successfully deleted user");
       window.location.replace("https://to-do-46.firebaseapp.com");
       window.location.reload();
     } catch (error) {
       console.error(error);
     }
   }
-  deleteAccount(e) {
-    e.preventDefault();
-    var user = auth.currentUser;
-    deleteUser(user)
-      .then(() => {
-        console.log("Successfully deleted user");
-        window.location.replace("https://to-do-46.firebaseapp.com");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-  static changeAuthState() {
+  changeAuthState() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById(
@@ -105,6 +108,7 @@ export default class App extends Component {
     };
   }
   componentDidMount() {
+    this.changeAuthState();
     const q = query(collection(firestore, "col"));
     onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -171,5 +175,3 @@ export default class App extends Component {
     );
   }
 }
-
-App.changeAuthState();
