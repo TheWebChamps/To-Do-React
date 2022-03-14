@@ -78,7 +78,7 @@ export default class App extends Component {
     try {
       await deleteUser(user);
       console.log("Successfully deleted user");
-      window.location.replace("https://to-do-46.firebaseapp.com");
+      window.location.replace("https://localhost:3000/");
       window.location.reload();
     } catch (error) {
       console.error(error);
