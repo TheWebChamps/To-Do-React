@@ -1,3 +1,4 @@
 {
-    "workbench.editor.historyBasedLanguageDetection": true
+    "workbench.editor.historyBasedLanguageDetection": true,
+    "editor.bracketPairColorization.enabled": true
 }
