@@ -24,6 +24,8 @@ import {
 
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
+import { getPerformance } from "firebase/performance";
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDFu-GH9JPpz_ih9bFxbAhQmDqu5phkABQ",
@@ -36,6 +38,8 @@ const firebaseConfig = {
 
 // Initialize App
 const app = initializeApp(firebaseConfig);
+
+getPerformance(app);
 
 initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL"),
