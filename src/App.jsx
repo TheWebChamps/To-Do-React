@@ -129,7 +129,7 @@ export default class App extends Component {
           style={{
             display: "grid",
             alignItems: "right",
-            justifyContent: "righ t",
+            justifyContent: "right",
           }}
         >
           <h1 id="banner"> </h1>
