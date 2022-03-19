@@ -11,7 +11,6 @@ import {
   GoogleAuthProvider,
   deleteUser,
   onAuthStateChanged,
-  connectAuthEmulator,
 } from "firebase/auth";
 
 import {
@@ -19,12 +18,13 @@ import {
   onSnapshot,
   query,
   collection,
-  connectFirestoreEmulator,
 } from "firebase/firestore";
 
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 import { getPerformance } from "firebase/performance";
+
+import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -34,12 +34,14 @@ const firebaseConfig = {
   storageBucket: "to-do-46.appspot.com",
   messagingSenderId: "437760326755",
   appId: "1:437760326755:web:6090be559a31fe15ad0c56",
+  measurementId: "G-Y7S0G6SW65"
 };
 
 // Initialize App
 const app = initializeApp(firebaseConfig);
 
 getPerformance(app);
+getAnalytics(app);
 
 initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL"),
@@ -47,9 +49,6 @@ initializeAppCheck(app, {
 
 const auth = getAuth();
 const firestore = getFirestore();
-
-connectAuthEmulator(auth, "http://localhost:9099/");
-connectFirestoreEmulator(firestore, "localhost", 8080);
 
 const authProvider = new GoogleAuthProvider();
 
@@ -59,7 +58,7 @@ export default class App extends Component {
     try {
       await signInWithPopup(auth, authProvider);
       console.log("You are now signed in");
-      window.location.replace("https://localhost:3000/");
+      window.location.replace("https://to-do-46.web.app");
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -70,7 +69,7 @@ export default class App extends Component {
     try {
       await signOut(auth);
       console.log("Successfully signed out");
-      window.location.replace("https://localhost:3000/");
+      window.location.replace("https://to-do-46.web.app");
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -82,7 +81,7 @@ export default class App extends Component {
     try {
       await deleteUser(user);
       console.log("Successfully deleted user");
-      window.location.replace("https://localhost:3000/");
+      window.location.replace("https://to-do-46.web.app");
       window.location.reload();
     } catch (error) {
       console.error(error);
