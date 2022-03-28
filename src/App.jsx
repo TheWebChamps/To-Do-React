@@ -96,11 +96,13 @@ export default class App extends Component {
         document.getElementById("google").style.display = "none";
         document.getElementById("signOut").style.display = "block";
         document.getElementById("delete").style.display = "block";
+        document.getElementById("showData").style.display = "block";
       } else {
         document.getElementById("banner").innerHTML = "";
         document.getElementById("google").style.display = "block";
         document.getElementById("signOut").style.display = "none";
         document.getElementById("delete").style.display = "none";
+        document.getElementById("showData").style.display = "none";
       }
     });
   }
@@ -173,7 +175,7 @@ export default class App extends Component {
             verticalAlign: "top",
           }}
         ></div>
-        <h2>{this.state.data}</h2>
+        <ul id="showData"><li>{JSON.stringify(this.state.data)}</li></ul>
       </div>
     );
   }
