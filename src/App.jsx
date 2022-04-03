@@ -22,7 +22,7 @@ import {
 
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
-import { getPerformance } from "firebase/performance";
+import { getPerformance, trace } from "firebase/performance";
 
 import { getAnalytics } from "firebase/analytics";
 
@@ -40,7 +40,7 @@ const firebaseConfig = {
 // Initialize App
 const app = initializeApp(firebaseConfig);
 
-getPerformance(app);
+const performance = getPerformance(app);
 getAnalytics(app);
 
 initializeAppCheck(app, {
@@ -54,6 +54,8 @@ const authProvider = new GoogleAuthProvider();
 
 export default class App extends Component {
   async signInWithGoogle(e) {
+    const t = trace(performance, "Sign in with Google");
+    t.start();
     e.preventDefault();
     try {
       await signInWithPopup(auth, authProvider);
@@ -63,8 +65,11 @@ export default class App extends Component {
     } catch (error) {
       console.error(error);
     }
+    t.stop();
   }
   async signUserOut(e) {
+    const t = trace(performance, "Sign out");
+    t.start();
     e.preventDefault();
     try {
       await signOut(auth);
@@ -74,6 +79,7 @@ export default class App extends Component {
     } catch (error) {
       console.error(error);
     }
+    t.stop();
   }
   async deleteAccount(e) {
     e.preventDefault();
@@ -113,6 +119,8 @@ export default class App extends Component {
     };
   }
   componentDidMount() {
+    const t = trace(performance, "Get Firestore data");
+    t.start();
     this.changeAuthState();
     const q = query(collection(firestore, "col"));
     onSnapshot(q, (querySnapshot) => {
@@ -122,8 +130,11 @@ export default class App extends Component {
         });
       });
     });
+    t.stop();
   }
   render() {
+    const t = trace(performance, "Load React DOM elements");
+    t.start();
     return (
       <div>
         <div
@@ -178,5 +189,6 @@ export default class App extends Component {
         <ul id="showData"><li>{JSON.stringify(this.state.data)}</li></ul>
       </div>
     );
+    t.stop();
   }
 }
