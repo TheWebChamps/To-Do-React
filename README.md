@@ -2,8 +2,6 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[![Deploy to Firebase Hosting on PR](https://github.com/TheWebChamps/To-Do-React/actions/workflows/firebase-hosting-pull-request.yml/badge.svg)](https://github.com/TheWebChamps/To-Do-React/actions/workflows/firebase-hosting-pull-request.yml)
-
 ## Available Scripts
 
 In the project directory, you can run:
