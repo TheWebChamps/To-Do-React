@@ -54,8 +54,6 @@ const authProvider = new GoogleAuthProvider();
 
 export default class App extends Component {
   async signInWithGoogle(e) {
-    const t = trace(performance, "Sign in with Google");
-    t.start();
     e.preventDefault();
     try {
       await signInWithPopup(auth, authProvider);
@@ -65,11 +63,8 @@ export default class App extends Component {
     } catch (error) {
       console.error(error);
     }
-    t.stop();
   }
   async signUserOut(e) {
-    const t = trace(performance, "Sign out");
-    t.start();
     e.preventDefault();
     try {
       await signOut(auth);
@@ -79,7 +74,6 @@ export default class App extends Component {
     } catch (error) {
       console.error(error);
     }
-    t.stop();
   }
   async deleteAccount(e) {
     e.preventDefault();
@@ -133,8 +127,6 @@ export default class App extends Component {
     t.stop();
   }
   render() {
-    const t = trace(performance, "Load React DOM elements");
-    t.start();
     return (
       <div>
         <div
@@ -189,6 +181,5 @@ export default class App extends Component {
         <ul id="showData"><li>{JSON.stringify(this.state.data)}</li></ul>
       </div>
     );
-    t.stop();
   }
 }
