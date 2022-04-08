@@ -113,8 +113,8 @@ export default class App extends Component {
     };
   }
   componentDidMount() {
-    const t = trace(performance, "Get Firestore data");
-    t.start();
+    const trace1 = trace(performance, "Get Firestore data");
+    trace1.start();
     this.changeAuthState();
     const q = query(collection(firestore, "col"));
     onSnapshot(q, (querySnapshot) => {
@@ -124,7 +124,7 @@ export default class App extends Component {
         });
       });
     });
-    t.stop();
+    trace1.stop();
   }
   render() {
     return (
