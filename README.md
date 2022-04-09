@@ -3,6 +3,8 @@
 
 [![CodeQL](https://github.com/TheWebChamps/To-Do-React/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/TheWebChamps/To-Do-React/actions/workflows/codeql-analysis.yml)
 
+[![Deploy to Firebase Hosting on merge](https://github.com/TheWebChamps/To-Do-React/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/TheWebChamps/To-Do-React/actions/workflows/firebase-hosting-merge.yml)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
