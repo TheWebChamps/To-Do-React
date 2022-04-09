@@ -27,4 +27,3 @@ yarn-error.log*
 
 *-debug.log
 firestore.rules
-*.env
