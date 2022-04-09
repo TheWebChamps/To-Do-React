@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+# To-Do-React
+## Getting Started with Create React App
+
+[![CodeQL](https://github.com/TheWebChamps/To-Do-React/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/TheWebChamps/To-Do-React/actions/workflows/codeql-analysis.yml)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
