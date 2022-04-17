@@ -5,6 +5,8 @@
 
 [![Deploy to Firebase Hosting on merge](https://github.com/TheWebChamps/To-Do-React/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/TheWebChamps/To-Do-React/actions/workflows/firebase-hosting-merge.yml)
 
+[![Deploy to Firebase Hosting on PR](https://github.com/TheWebChamps/To-Do-React/actions/workflows/firebase-hosting-pull-request.yml/badge.svg)](https://github.com/TheWebChamps/To-Do-React/actions/workflows/firebase-hosting-pull-request.yml)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
