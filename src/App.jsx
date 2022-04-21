@@ -26,6 +26,8 @@ import { getPerformance, trace } from "firebase/performance";
 
 import { getAnalytics } from "firebase/analytics";
 
+import { getRemoteConfig, fetchAndActivate, getValue } from "firebase/remote-config";
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDFu-GH9JPpz_ih9bFxbAhQmDqu5phkABQ",
@@ -34,7 +36,7 @@ const firebaseConfig = {
   storageBucket: "to-do-46.appspot.com",
   messagingSenderId: "437760326755",
   appId: "1:437760326755:web:6090be559a31fe15ad0c56",
-  measurementId: "G-Y7S0G6SW65"
+  measurementId: "G-Y7S0G6SW65",
 };
 
 // Initialize App
@@ -42,6 +44,10 @@ const app = initializeApp(firebaseConfig);
 
 const performance = getPerformance(app);
 getAnalytics(app);
+
+const remoteConfig = getRemoteConfig(app);
+
+remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
 
 initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL"),
@@ -112,15 +118,25 @@ export default class App extends Component {
       data: "",
     };
   }
+  remoteConfigDo() {
+    fetchAndActivate(remoteConfig)
+    .then(() => {
+      document.getElementById("pcOrPhone").innerHTML = Object.values(getValue(remoteConfig, "Phone_or_PC"));
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
   componentDidMount() {
     const trace1 = trace(performance, "Get Firestore data");
-    trace1.start();
     this.changeAuthState();
+    this.remoteConfigDo();
+    trace1.start();
     const q = query(collection(firestore, "col"));
     onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         this.setState({
-          data: JSON.stringify(doc.data().t),
+          data: Object.values(doc.data().t).join("")
         });
       });
     });
@@ -178,7 +194,10 @@ export default class App extends Component {
             verticalAlign: "top",
           }}
         ></div>
-        <ul id="showData"><li>{JSON.stringify(this.state.data)}</li></ul>
+        <ul id="showData">
+          <li>{(this.state.data)}</li>
+        </ul>
+        <p id="pcOrPhone"></p>
       </div>
     );
   }
