@@ -11,6 +11,7 @@ import {
   GoogleAuthProvider,
   deleteUser,
   onAuthStateChanged,
+  OAuthProvider,
 } from "firebase/auth";
 
 import {
@@ -26,7 +27,11 @@ import { getPerformance, trace } from "firebase/performance";
 
 import { getAnalytics } from "firebase/analytics";
 
-import { getRemoteConfig, fetchAndActivate, getValue } from "firebase/remote-config";
+import {
+  getRemoteConfig,
+  fetchAndActivate,
+  getValue,
+} from "firebase/remote-config";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -57,8 +62,19 @@ const auth = getAuth();
 const firestore = getFirestore();
 
 const authProvider = new GoogleAuthProvider();
+const provider = new OAuthProvider("microsoft.com");
 
 export default class App extends Component {
+  signInUsingMicrosoft(event) {
+    event.preventDefault();
+    signInWithPopup(auth, provider)
+      .then(() => {
+        console.log("Done signing in with Microsoft.");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   async signInWithGoogle(e) {
     e.preventDefault();
     try {
@@ -103,12 +119,14 @@ export default class App extends Component {
         document.getElementById("signOut").style.display = "block";
         document.getElementById("delete").style.display = "block";
         document.getElementById("showData").style.display = "block";
+        document.getElementById("microsoft").style.display = "none";
       } else {
         document.getElementById("banner").innerHTML = "";
         document.getElementById("google").style.display = "block";
         document.getElementById("signOut").style.display = "none";
         document.getElementById("delete").style.display = "none";
         document.getElementById("showData").style.display = "none";
+        document.getElementById("microsoft").style.display = "block";
       }
     });
   }
@@ -120,12 +138,14 @@ export default class App extends Component {
   }
   remoteConfigDo() {
     fetchAndActivate(remoteConfig)
-    .then(() => {
-      document.getElementById("pcOrPhone").innerHTML = Object.values(getValue(remoteConfig, "Phone_or_PC"));
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then(() => {
+        document.getElementById("pcOrPhone").innerHTML = Object.values(
+          getValue(remoteConfig, "Phone_or_PC")
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
   componentDidMount() {
     const trace1 = trace(performance, "Get Firestore data");
@@ -136,7 +156,7 @@ export default class App extends Component {
     onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         this.setState({
-          data: Object.values(doc.data().t).join("")
+          data: Object.values(doc.data().t).join(""),
         });
       });
     });
@@ -174,6 +194,15 @@ export default class App extends Component {
               Sign out
             </button>
           </form>
+          <form onSubmit={this.signInUsingMicrosoft}>
+            <button
+              type="submit"
+              id="microsoft"
+              style={{ width: "300px", height: "50px" }}
+            >
+              Sign in with Microsoft
+            </button>
+          </form>
           <br />
           <br />
           <form onSubmit={this.deleteAccount}>
@@ -195,7 +224,7 @@ export default class App extends Component {
           }}
         ></div>
         <ul id="showData">
-          <li>{(this.state.data)}</li>
+          <li>{this.state.data}</li>
         </ul>
         <p id="pcOrPhone"></p>
       </div>
