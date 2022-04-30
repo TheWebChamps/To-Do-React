@@ -47,9 +47,6 @@ const firebaseConfig = {
 // Initialize App
 const app = initializeApp(firebaseConfig);
 
-const performance = getPerformance(app);
-getAnalytics(app);
-
 const remoteConfig = getRemoteConfig(app);
 
 remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
@@ -57,6 +54,10 @@ remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
 initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL"),
 });
+
+const performance = getPerformance(app);
+
+getAnalytics(app);
 
 const auth = getAuth();
 const firestore = getFirestore();
@@ -70,6 +71,8 @@ export default class App extends Component {
     signInWithPopup(auth, provider)
       .then(() => {
         console.log("Done signing in with Microsoft.");
+        window.location.replace("https://to-do-46.web.app");
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
