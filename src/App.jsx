@@ -66,6 +66,62 @@ const authProvider = new GoogleAuthProvider();
 const provider = new OAuthProvider("microsoft.com");
 
 export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      data: "",
+    };
+  }
+  remoteConfigDo() {
+    fetchAndActivate(remoteConfig)
+      .then(() => {
+        document.getElementById("pcOrPhone").innerHTML = Object.values(
+          getValue(remoteConfig, "Phone_or_PC")
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  componentDidMount() {
+    const trace1 = trace(performance, "Get Firestore data");
+    this.remoteConfigDo();
+    trace1.start();
+    const q = query(collection(firestore, "col"));
+    onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        this.setState({
+          data: Object.values(doc.data().t).join(""),
+        });
+      });
+    });
+    trace1.stop();
+  }
+  render() {
+    return (
+      <>
+        <SignInStuff />
+        <div
+          style={{
+            display: "grid",
+            justifyContent: "left",
+            alignItems: "left",
+            verticalAlign: "top",
+          }}
+        ></div>
+        <ul id="showData">
+          <li>{this.state.data}</li>
+        </ul>
+        <p id="pcOrPhone"></p>
+      </>
+    );
+  }
+}
+
+class SignInStuff extends Component {
+  componentDidMount() {
+    this.changeAuthState();
+  }
   signInUsingMicrosoft(event) {
     event.preventDefault();
     signInWithPopup(auth, provider)
@@ -133,103 +189,57 @@ export default class App extends Component {
       }
     });
   }
-  constructor() {
-    super();
-    this.state = {
-      data: "",
-    };
-  }
-  remoteConfigDo() {
-    fetchAndActivate(remoteConfig)
-      .then(() => {
-        document.getElementById("pcOrPhone").innerHTML = Object.values(
-          getValue(remoteConfig, "Phone_or_PC")
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-  componentDidMount() {
-    const trace1 = trace(performance, "Get Firestore data");
-    this.changeAuthState();
-    this.remoteConfigDo();
-    trace1.start();
-    const q = query(collection(firestore, "col"));
-    onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        this.setState({
-          data: Object.values(doc.data().t).join(""),
-        });
-      });
-    });
-    trace1.stop();
-  }
   render() {
     return (
-      <div>
-        <div
-          style={{
-            display: "grid",
-            alignItems: "right",
-            justifyContent: "right",
-          }}
-        >
-          <h1 id="banner"> </h1>
-          <br />
-          <form onSubmit={this.signInWithGoogle}>
-            <button
-              id="google"
-              style={{ width: "300px", height: "50px" }}
-              type="submit"
-            >
-              Sign in with Google
-            </button>
-          </form>
-          <br />
-          <br />
-          <form onSubmit={this.signUserOut}>
-            <button
-              type="submit"
-              id="signOut"
-              style={{ width: "300px", height: "50px" }}
-            >
-              Sign out
-            </button>
-          </form>
-          <form onSubmit={this.signInUsingMicrosoft}>
-            <button
-              type="submit"
-              id="microsoft"
-              style={{ width: "300px", height: "50px" }}
-            >
-              Sign in with Microsoft
-            </button>
-          </form>
-          <br />
-          <br />
-          <form onSubmit={this.deleteAccount}>
-            <button
-              id="delete"
-              style={{ width: "300px", height: "50px" }}
-              type="submit"
-            >
-              Delete account
-            </button>
-          </form>
-        </div>
-        <div
-          style={{
-            display: "grid",
-            justifyContent: "left",
-            alignItems: "left",
-            verticalAlign: "top",
-          }}
-        ></div>
-        <ul id="showData">
-          <li>{this.state.data}</li>
-        </ul>
-        <p id="pcOrPhone"></p>
+      <div
+        style={{
+          display: "grid",
+          alignItems: "right",
+          justifyContent: "right",
+        }}
+      >
+        <h1 id="banner"> </h1>
+        <br />
+        <form onSubmit={this.signInWithGoogle}>
+          <button
+            id="google"
+            style={{ width: "300px", height: "50px" }}
+            type="submit"
+          >
+            Sign in with Google
+          </button>
+        </form>
+        <br />
+        <br />
+        <form onSubmit={this.signUserOut}>
+          <button
+            type="submit"
+            id="signOut"
+            style={{ width: "300px", height: "50px" }}
+          >
+            Sign out
+          </button>
+        </form>
+        <form onSubmit={this.signInUsingMicrosoft}>
+          <button
+            type="submit"
+            id="microsoft"
+            style={{ width: "300px", height: "50px" }}
+          >
+            Sign in with Microsoft
+          </button>
+        </form>
+        <br />
+        <br />
+        <form onSubmit={this.deleteAccount}>
+          <button
+            id="delete"
+            style={{ width: "300px", height: "50px" }}
+            type="submit"
+          >
+            Delete account
+          </button>
+        </form>
       </div>
     );
   }
