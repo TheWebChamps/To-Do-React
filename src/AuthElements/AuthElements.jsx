@@ -1,22 +1,20 @@
+import "./AuthElements.css";
 export function AuthElements(props) {
   return (
     <div
-      style={{
-        display: "grid",
-        alignItems: "right",
-        justifyContent: "right",
-      }}
+      id="main"
     >
       <h1 id="banner"> </h1>
       <br />
       <form onSubmit={props.google}>
         <button
+          className="auth"
           id="google"
+          type="submit"
           style={{
             width: "300px",
             height: "50px",
           }}
-          type="submit"
         >
           Sign in with Google
         </button>
@@ -25,6 +23,7 @@ export function AuthElements(props) {
       <br />
       <form onSubmit={props.out}>
         <button
+          className="auth"
           type="submit"
           id="signOut"
           style={{
@@ -37,6 +36,7 @@ export function AuthElements(props) {
       </form>
       <form onSubmit={props.microsoft}>
         <button
+          className="auth"
           type="submit"
           id="microsoft"
           style={{
@@ -51,12 +51,13 @@ export function AuthElements(props) {
       <br />
       <form onSubmit={props.delete}>
         <button
+          className="auth"
           id="delete"
+          type="submit"
           style={{
             width: "300px",
             height: "50px",
           }}
-          type="submit"
         >
           Delete account
         </button>

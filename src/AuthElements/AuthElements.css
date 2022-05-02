@@ -1,0 +1,5 @@
+#main {
+  display: grid;
+  align-items: right;
+  justify-content: right;
+}
