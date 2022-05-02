@@ -1,4 +1,5 @@
-import { AuthElements } from "./AuthElements.jsx";
+import { AuthElements } from "./AuthElements/AuthElements.jsx";
+import { UseReactState } from "./UseReactState/UseReactState.jsx";
 import { Component } from "react";
 import "./index.css";
 
@@ -102,6 +103,7 @@ export default class App extends Component {
     return (
       <>
         <SignInStuff />
+        <UseReactState />
         <div
           style={{
             display: "grid",
