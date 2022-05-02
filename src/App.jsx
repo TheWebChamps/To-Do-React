@@ -193,10 +193,10 @@ class SignInStuff extends Component {
   render() {
     return (
       <AuthElements
-        signInWithGoogle={this.signInWithGoogle}
-        signUserOut={this.signUserOut}
-        signInUsingMicrosoft={this.signInUsingMicrosoft}
-        deleteAccount={this.deleteAccount}
+        google={this.signInWithGoogle}
+        out={this.signUserOut}
+        microsoft={this.signInUsingMicrosoft}
+        delete={this.deleteAccount}
       />
     );
   }
