@@ -1,9 +1,4 @@
-export function AuthElements({
-  signInWithGoogle,
-  signUserOut,
-  signInUsingMicrosoft,
-  deleteAccount,
-}) {
+export function AuthElements(props) {
   return (
     <div
       style={{
@@ -14,7 +9,7 @@ export function AuthElements({
     >
       <h1 id="banner"> </h1>
       <br />
-      <form onSubmit={signInWithGoogle}>
+      <form onSubmit={props.google}>
         <button
           id="google"
           style={{
@@ -28,7 +23,7 @@ export function AuthElements({
       </form>
       <br />
       <br />
-      <form onSubmit={signUserOut}>
+      <form onSubmit={props.out}>
         <button
           type="submit"
           id="signOut"
@@ -40,7 +35,7 @@ export function AuthElements({
           Sign out
         </button>
       </form>
-      <form onSubmit={signInUsingMicrosoft}>
+      <form onSubmit={props.microsoft}>
         <button
           type="submit"
           id="microsoft"
@@ -54,7 +49,7 @@ export function AuthElements({
       </form>
       <br />
       <br />
-      <form onSubmit={deleteAccount}>
+      <form onSubmit={props.delete}>
         <button
           id="delete"
           style={{
