@@ -29,12 +29,6 @@ import { getPerformance, trace } from "firebase/performance";
 
 import { getAnalytics } from "firebase/analytics";
 
-import {
-  getRemoteConfig,
-  fetchAndActivate,
-  getValue,
-} from "firebase/remote-config";
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDFu-GH9JPpz_ih9bFxbAhQmDqu5phkABQ",
@@ -48,10 +42,6 @@ const firebaseConfig = {
 
 // Initialize App
 const app = initializeApp(firebaseConfig);
-
-const remoteConfig = getRemoteConfig(app);
-
-remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
 
 initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider("6Ld89ZoeAAAAAPu0KsEUIIab9JnEG8G9brw3djcL"),
@@ -74,20 +64,8 @@ export default class App extends Component {
       data: "",
     };
   }
-  remoteConfigDo() {
-    fetchAndActivate(remoteConfig)
-      .then(() => {
-        document.getElementById("pcOrPhone").innerHTML = Object.values(
-          getValue(remoteConfig, "Phone_or_PC")
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
   componentDidMount() {
     const trace1 = trace(performance, "Get Firestore data");
-    this.remoteConfigDo();
     trace1.start();
     const q = query(collection(firestore, "col"));
     onSnapshot(q, (querySnapshot) => {
