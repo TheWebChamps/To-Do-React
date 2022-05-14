@@ -3,6 +3,6 @@
   margin-left: 1px;
   width: 200px;
   height: 150px;
-  position: fixed;
+  position: relative;
   bottom: 0;
 }
