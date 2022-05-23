@@ -93,7 +93,6 @@ export default class App extends Component {
         <ul id="showData">
           <li>{this.state.data}</li>
         </ul>
-        <p id="pcOrPhone"></p>
       </>
     );
   }
