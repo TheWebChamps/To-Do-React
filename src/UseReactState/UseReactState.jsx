@@ -7,8 +7,8 @@ export function UseReactState() {
     <div id="hello">
       <h2>Counter</h2>
       <h2>{count}</h2>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <button onClick={() => setCount(count - 1)}>Decrement</button>
+      <button onClick={() => setCount(count + 1)}>Count forward</button>
+      <button onClick={() => setCount(count - 1)}>Count backward</button>
     </div>
   );
 }
