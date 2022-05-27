@@ -14,9 +14,6 @@ import {
   deleteUser,
   onAuthStateChanged,
   OAuthProvider,
-  sendSignInLinkToEmail,
-  isSignInWithEmailLink,
-  signInWithEmailLink,
 } from "firebase/auth";
 
 import {
@@ -174,60 +171,12 @@ class SignInStuff extends Component {
   }
   render() {
     return (
-      <>
-        <AuthElements
-          google={this.signInWithGoogle}
-          out={this.signUserOut}
-          microsoft={this.signInUsingMicrosoft}
-          delete={this.deleteAccount}
-        />
-        <EmailLink />
-      </>
-    );
-  }
-}
-
-class EmailLink extends Component {
-  constructor() {
-    super();
-    this.sendLink = this.sendLink.bind(this);
-  }
-  sendLink() {
-    let actionCodeSettings = {
-      url: "https://to-do-46.web.app",
-      handleCodeInApp: true,
-    };
-    const email = document.querySelector("#enterEmail").value;
-    sendSignInLinkToEmail(auth, email, actionCodeSettings)
-      .then(() => {
-        window.localStorage.setItem("email", email);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-  checkEmailLinkSignIn() {
-    if (isSignInWithEmailLink(auth, window.location.href)) {
-      let email = window.localStorage.getItem("email");
-      if (!email) {
-        email = window.prompt("Please provide your email for confirmation");
-      }
-      signInWithEmailLink(auth, email, window.location.href)
-        .then(() => {
-          window.localStorage.removeItem("email");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }
-  componentDidMount() {}
-  render() {
-    return (
-      <>
-        <input type="text" placeholder="Enter email" id="enterEmail" />
-        <button onClick={this.sendLink}>Click to receive link</button>
-      </>
+      <AuthElements
+        google={this.signInWithGoogle}
+        out={this.signUserOut}
+        microsoft={this.signInUsingMicrosoft}
+        delete={this.deleteAccount}
+      />
     );
   }
 }
