@@ -111,6 +111,7 @@ class SignInStuff extends Component {
         window.location.reload();
       })
       .catch((error) => {
+        // TODO: Show a toast
         console.error(error);
       });
   }
