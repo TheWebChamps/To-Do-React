@@ -91,7 +91,7 @@ export default class App extends Component {
             verticalAlign: "top",
           }}
         >
-          <h2>Milliseconds passed since the midnight of 1 January 1970 UTC</h2>
+          <h2>Milliseconds passed since the midnight of 1 January 1970 UTC.</h2>
           <CurrentMillis />
         </div>
         <ul id="showData">
