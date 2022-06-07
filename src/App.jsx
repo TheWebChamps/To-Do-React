@@ -1,5 +1,6 @@
 import { AuthElements } from "./AuthElements/AuthElements.jsx";
 import { UseReactState } from "./UseReactState/UseReactState.jsx";
+import { CurrentMillis } from "./CurrentMillis/CurrentMillis.jsx";
 import { Component } from "react";
 import "./index.css";
 
@@ -89,7 +90,10 @@ export default class App extends Component {
             alignItems: "left",
             verticalAlign: "top",
           }}
-        ></div>
+        >
+          <h2>Milliseconds passed since the midnight of 1 January 1970 UTC</h2>
+          <CurrentMillis />
+        </div>
         <ul id="showData">
           <li>{this.state.data}</li>
         </ul>
